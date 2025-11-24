@@ -1,4 +1,4 @@
-package ru.khrisanfova.dataservice;
+package ru.khrisanfova.data.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
