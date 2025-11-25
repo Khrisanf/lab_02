@@ -1,15 +1,22 @@
-openapi: 3.0.1
+openapi: 3.0.3
 info:
-  title: Data-service API
+  title: Data Service API
   version: 1.0.0
+  description: >
+    Внутренний API для управления студентами.
+    Этот сервис отвечает за чтение и запись данных в базу данных.
+servers:
+  - url: http://localhost:8083
+    description: Data Service (внутренний)
 
 paths:
   /students:
     post:
+      summary: Создать студента в БД
+      description: Создает запись о студенте в базе данных.
+      operationId: createStudentDataInData
       tags:
         - StudentData
-      summary: Создать студента
-      operationId: createStudentDataInData
       requestBody:
         required: true
         content:
@@ -17,8 +24,8 @@ paths:
             schema:
               $ref: '#/components/schemas/StudentDataCreateRequest'
       responses:
-        '200':
-          description: Студент создан
+        '201':
+          description: Студент успешно создан
           content:
             application/json:
               schema:
@@ -26,20 +33,22 @@ paths:
 
   /students/{id}:
     get:
+      summary: Получить данные студента из БД
+      description: Возвращает информацию о студенте по идентификатору.
+      operationId: getStudentDataByIdFromData
       tags:
         - StudentData
-      summary: Получить данные студента по id
-      operationId: getStudentDataByIdFromData
       parameters:
         - name: id
           in: path
           required: true
+          description: Идентификатор студента
           schema:
             type: integer
             format: int64
       responses:
         '200':
-          description: Найденный студент
+          description: Студент найден
           content:
             application/json:
               schema:
@@ -57,22 +66,21 @@ components:
       properties:
         fullName:
           type: string
-          description: 'ФИО студента'
+          example: "Иванов Иван Иванович"
         passport:
           type: string
-          description: 'Серия и номер паспорта студента'
+          example: "+7 999 123-45-67"
 
     StudentDataResponse:
       type: object
-      required:
-        - id
-        - fullName
-        - passport
       properties:
         id:
           type: integer
           format: int64
+          example: 1
         fullName:
           type: string
+          example: "Иванов Иван Иванович"
         passport:
           type: string
+          example: "+7 999 123-45-67"
